@@ -9,6 +9,7 @@ class ProductPage(BasePage):
         login_link = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)        
         login_link.click()
         
+        
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
@@ -21,7 +22,8 @@ class ProductPage(BasePage):
             print(f"Your code: {alert_text}")
             alert.accept()
         except NoAlertPresentException:
-            print("No second alert presented")   
+            print("No second alert presented")
+           
         
     def find_the_price_and_name(self):       
         price = self.browser.find_element(*ProductPageLocators.PRICE) 
@@ -35,4 +37,11 @@ class ProductPage(BasePage):
         name_in_basket_value = name_in_basket.text
         price_in_basket = self.browser.find_element(*ProductPageLocators.PRICE_IN_BASKET)
         price_in_basket_value = price_in_basket.text
-        return name_in_basket_value, price_in_basket_value
+        return name_in_basket_value, price_in_basket_value      
+    
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), "Success message is presented, but should not be" 
+    
+    def should_disappear(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), "Success message should disappear, but it doesn't"
+        
